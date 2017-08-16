@@ -1,0 +1,9 @@
+{
+    "db":{
+        "host":"localhost",
+        "user":"root", // change me
+        "password":"", // change me
+        "database":"vendingData" // change me
+    },
+    "port": 3000
+}
