@@ -20,8 +20,6 @@ const conn = mysql.createConnection({
   password: config.get('db.password')
 })
 
-// PUT /api/vendor/items/:itemId - update item quantity, description, and cost
-
 /*  
 	*this returns all of the item information
  	*url:/api/customer/items
@@ -138,9 +136,28 @@ FROM
 
 // POST /api/vendor/items - add a new item not previously existing in the machine
 app.post("/api/vendor/items", function(req, res, next){
-	const sql = ``
+	const name = req.body.name
+	const cost = req.body.cost
+	const quantity = req.body.quantity
+	const sql = `insert into items (name, cost, quantity) values (?, ?, ?);`
+
+	conn.query(sql,[name, cost, quantity],function(err, results, fields){
+		let stuff = {transactions: results}
+		if (err){
+			res.json("yo you messed up")
+		}
+		else {
+		res.json("item has been inserted")
+		res.json(stuff)
+		}
+	})
 })
+
+// PUT /api/vendor/items/:itemId - update item quantity, description, and cost
+
+
+
+
 app.listen(config.get('port'), function(){
   console.log("App running is running on" + config.get('port'))
 })
-
