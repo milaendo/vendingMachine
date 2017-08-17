@@ -154,7 +154,29 @@ app.post("/api/vendor/items", function(req, res, next){
 })
 
 // PUT /api/vendor/items/:itemId - update item quantity, description, and cost
+app.put("/api/vendor/items/:itemId",function(req,res,next){
+	const itemid = req.params.itemId
+	const cost = req.body.cost
+	const quantity = req.body.quantity
+	const sql = `
+UPDATE items 
+SET 
+    cost = ?,
+    quantity = ?
+WHERE
+    iditems = ?;`
 
+    conn.query(sql, [cost,quantity,itemid],function(err, results, fields){
+    	let stuff = {items: results}
+    	if(err){
+    		res.json("cant do that")
+    	}
+    	else {
+    		res.json("info updated")
+    		res.json(stuff)
+    	}
+    })
+})
 
 
 
